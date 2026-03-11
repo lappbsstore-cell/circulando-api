@@ -8,7 +8,7 @@ app.get("/contingencia", async (req, res) => {
   try {
 
     const r = await axios.get(
-  "https://www.gob.mx/comisionambiental/prensa",
+  "https://www.gob.mx/comisionambiental"
   {
     headers: {
       "User-Agent":
@@ -43,3 +43,4 @@ app.listen(3000, () => {
   console.log("API contingencia lista en puerto 3000");
 
 });
+

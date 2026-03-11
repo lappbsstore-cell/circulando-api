@@ -18,7 +18,7 @@ app.get("/contingencia", async (req, res) => {
 );
 
     const texto = r.data.toLowerCase().replace(/\s+/g, " ");
-
+    console.log(texto.slice(0,500));
     let estado = "ninguna";
 
     if (texto.includes("fase ii")) estado = "faseII";
@@ -43,6 +43,7 @@ app.listen(3000, () => {
   console.log("API contingencia lista en puerto 3000");
 
 });
+
 
 
 

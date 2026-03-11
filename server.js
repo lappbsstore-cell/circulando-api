@@ -25,8 +25,9 @@ app.get("/contingencia", async (req, res) => {
     else if (texto.includes("fase i")) estado = "faseI";
 
     res.json({
-      estado: estado
-    });
+  estado: estado,
+  manana: "ninguna"
+});
 
   } catch (e) {
 
@@ -40,4 +41,5 @@ app.get("/contingencia", async (req, res) => {
 
 app.listen(3000, () => {
   console.log("API contingencia lista en puerto 3000");
+
 });

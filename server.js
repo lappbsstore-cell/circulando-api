@@ -1,7 +1,7 @@
 const express = require("express");
 
 const app = express();
-
+const ADMIN_KEY = "172635";
 let estadoActual = {
   estado: "ninguna",
 
@@ -13,10 +13,16 @@ let estadoActual = {
 
 app.get("/admin", (req,res)=>{
 
+if(req.query.key !== ADMIN_KEY){
+  return res.send("Acceso no autorizado");
+}
+
 res.send(`
 <h2>Control de contingencia</h2>
 
 <form action="/set" method="get">
+
+<input type="hidden" name="key" value="${ADMIN_KEY}">
 
 Estado:
 <select name="estado">
@@ -44,6 +50,10 @@ Hologramas sabado (ej: 0,00):
 
 });
 app.get("/set",(req,res)=>{
+
+if(req.query.key !== ADMIN_KEY){
+  return res.send("Acceso no autorizado");
+}
 
 const estado=req.query.estado || "ninguna";
 

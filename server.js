@@ -3,11 +3,11 @@ const express = require("express");
 const app = express();
 
 let estadoActual = {
-  estado: "ninguna",
+  estado: "faseI",
 
   sabado: {
-    hologramas: [],
-    digitos: []
+    hologramas: ["0","00"],
+    digitos: [1,3,5,7,9]
   }
 };
 

@@ -10,6 +10,7 @@ let estadoActual = {
     digitos: []
   }
 };
+
 app.get("/admin", (req,res)=>{
 
 res.send(`

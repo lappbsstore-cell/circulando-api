@@ -18,6 +18,43 @@ if(req.query.key !== ADMIN_KEY){
 }
 
 res.send(`
+<html>
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+body{
+ font-family: Arial;
+ font-size:24px;
+ padding:30px;
+}
+
+h2{
+ font-size:36px;
+}
+
+select,input,button{
+ font-size:26px;
+ padding:15px;
+ width:100%;
+ margin-top:15px;
+}
+
+button{
+ background:#4CAF50;
+ color:white;
+ border:none;
+ border-radius:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
 <h2>Control de contingencia</h2>
 
 <form action="/set" method="get">
@@ -25,27 +62,35 @@ res.send(`
 <input type="hidden" name="key" value="${ADMIN_KEY}">
 
 Estado:
+
 <select name="estado">
+
 <option value="ninguna">Ninguna</option>
 <option value="faseI">Fase I</option>
 <option value="faseII">Fase II</option>
+
 </select>
 
-<br><br>
+<br>
 
 Digitos sabado (ej: 1,3,5,7,9):
+
 <input name="digitos">
 
-<br><br>
+<br>
 
 Hologramas sabado (ej: 0,00):
+
 <input name="hologramas">
 
-<br><br>
+<br>
 
 <button type="submit">Actualizar</button>
 
 </form>
+
+</body>
+</html>
 `);
 
 });

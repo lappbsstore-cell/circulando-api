@@ -1,54 +1,20 @@
 const express = require("express");
-const axios = require("axios");
 
 const app = express();
 
-app.get("/contingencia", async (req, res) => {
+let estadoActual = {
+  estado: "ninguna",
 
-  try {
-
-    const r = await axios.get(
-  "https://www.gob.mx/comisionambiental/feed",,
-  {
-    headers: {
-      "User-Agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36"
-    }
+  sabado: {
+    hologramas: [],
+    digitos: []
   }
-);
+};
 
-    const texto = r.data.toLowerCase().replace(/\s+/g, " ");
-    console.log(texto.slice(0,500));
-    let estado = "ninguna";
-
-    if (texto.includes("fase ii")) estado = "faseII";
-    else if (texto.includes("fase i")) estado = "faseI";
-
-    res.json({
-  estado: estado,
-  manana: "ninguna",
-  debug: texto.slice(0,500)
-});
-
-  } catch (e) {
-
-    res.json({
-      estado: "error"
-    });
-
-  }
-
+app.get("/contingencia", (req,res)=>{
+  res.json(estadoActual);
 });
 
 app.listen(3000, () => {
   console.log("API contingencia lista en puerto 3000");
-
 });
-
-
-
-
-
-
-
-

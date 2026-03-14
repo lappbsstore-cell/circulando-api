@@ -4,6 +4,7 @@ const app = express();
 const ADMIN_KEY = "172635";
 let estadoActual = {
   estado: "ninguna",
+  hasta: null,
 
   sabado: {
     hologramas: [],
@@ -86,7 +87,13 @@ Hologramas sabado (ej: 0,00):
 <br>
 
 <button type="submit">Actualizar</button>
+<br><br>
 
+<a href="/auto?key=${ADMIN_KEY}">
+<button type="button" style="background:#f44336">
+Volver a modo automático (AQI)
+</button>
+</a>
 </form>
 
 </body>
@@ -102,6 +109,25 @@ if(req.query.key !== ADMIN_KEY){
 
 const estado=req.query.estado || "ninguna";
 
+app.get("/auto",(req,res)=>{
+
+if(req.query.key !== ADMIN_KEY){
+  return res.send("Acceso no autorizado");
+}
+
+estadoActual={
+ estado:"ninguna",
+ hasta:null,
+ sabado:{
+  hologramas:[],
+  digitos:[]
+ }
+};
+
+res.send("Modo automático activado (AQI)");
+
+});
+  
 const digitos=req.query.digitos
  ? req.query.digitos.split(",").map(n=>parseInt(n))
  : [];
@@ -110,8 +136,19 @@ const hologramas=req.query.hologramas
  ? req.query.hologramas.split(",")
  : [];
 
+const ahora = new Date();
+
+const manana = new Date(
+ ahora.getFullYear(),
+ ahora.getMonth(),
+ ahora.getDate() + 1,
+ 0,0,0,0
+);
+
 estadoActual={
  estado,
+ hasta: manana.getTime(),
+
  sabado:{
   hologramas,
   digitos
@@ -123,7 +160,13 @@ res.send("Estado actualizado: "+JSON.stringify(estadoActual));
 });
 
 app.get("/contingencia", (req,res)=>{
-  res.json(estadoActual);
+
+if(estadoActual.hasta && Date.now() > estadoActual.hasta){
+  estadoActual.estado="ninguna";
+}
+
+res.json(estadoActual);
+
 });
 
 app.listen(3000, () => {

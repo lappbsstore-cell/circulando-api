@@ -217,13 +217,10 @@ app.get("/notify", async (req, res) => {
     res.send("Error enviando");
   }
 });
-
-// ─────────────────────────────
-// 🚀 START SERVER
-// ─────────────────────────────
-app.listen(3000, () => {
-  console.log("🔥 API lista en puerto 3000");
+app.get("/tokens", (req, res) => {
+  res.json(tokens);
 });
+
 
 // ─────────────────────────────
 // 🚀 START SERVER

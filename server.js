@@ -237,15 +237,18 @@ app.get("/notify", async (req, res) => {
     
 
     
+app.get("/tokens", (req, res) => {
+  res.json(tokens);
+});
 
 
+
+app.get("/test", (req, res) => {
+  res.send("🔥 TEST OK");
+});
 // ─────────────────────────────
 // 🚀 START SERVER
 // ─────────────────────────────
 app.listen(3000, () => {
   console.log("🔥 API lista en puerto 3000");
-});
-
-app.get("/test", (req, res) => {
-  res.send("🔥 TEST OK");
 });

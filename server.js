@@ -191,6 +191,11 @@ app.get("/register", (req, res) => {
 
 // 👉 REQUIERE firebase-admin
 const admin = require("firebase-admin");
+
+// 👇 AGREGA ESTO AQUÍ
+console.log("ENV PROJECT:", process.env.FIREBASE_PROJECT_ID);
+console.log("ENV EMAIL:", process.env.FIREBASE_CLIENT_EMAIL);
+
 admin.initializeApp({
   credential: admin.credential.cert({
     projectId: process.env.FIREBASE_PROJECT_ID,

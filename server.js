@@ -234,7 +234,7 @@ app.get("/notify", async (req, res) => {
     res.send("ERROR REAL: " + e.message);
   }
 });
-    }
+    
 
     res.send("Notificación enviada");
 

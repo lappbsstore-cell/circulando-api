@@ -200,7 +200,7 @@ admin.initializeApp({
 });
 
 console.log("🔥 Firebase inicializado");
-console.log("🔥 Proyecto:", serviceAccount.project_id);
+console.log("🔥 Proyecto:", process.env.FIREBASE_PROJECT_ID);
 
 app.get("/notify", async (req, res) => {
   try {

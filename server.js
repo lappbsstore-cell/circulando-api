@@ -202,12 +202,22 @@ app.get("/notify", async (req, res) => {
 
     for (let token of tokens) {
       await admin.messaging().send({
-        token: token,
-        notification: {
-          title: "🚗 Hoy No Circula",
-          body: "Tu auto NO circula mañana"
-        }
-      });
+  token: token,
+
+  notification: {
+    title: "🚗 Hoy No Circula",
+    body: "Tu auto NO circula mañana"
+  },
+
+  data: {
+    click_action: "FLUTTER_NOTIFICATION_CLICK",
+    test: "1"
+  },
+
+  android: {
+    priority: "high"
+  }
+});
     }
 
     res.send("Notificación enviada");

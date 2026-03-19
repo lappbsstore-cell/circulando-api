@@ -197,6 +197,9 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
+console.log("🔥 Firebase inicializado");
+console.log("🔥 Proyecto:", serviceAccount.project_id);
+
 app.get("/notify", async (req, res) => {
   try {
 

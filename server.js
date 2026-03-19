@@ -204,21 +204,34 @@ app.get("/notify", async (req, res) => {
   try {
 
     for (let token of tokens) {
-      await admin.messaging().send({
-  token: token,
 
-  notification: {
-    title: "🚗 Hoy No Circula",
-    body: "Tu auto NO circula mañana"
-  },
+      console.log("📤 Enviando a:", token);
 
-  data: {
-    click_action: "FLUTTER_NOTIFICATION_CLICK",
-    test: "1"
-  },
+      const response = await admin.messaging().send({
+        token: token,
+        notification: {
+          title: "🚗 Hoy No Circula",
+          body: "Tu auto NO circula mañana"
+        },
+        data: {
+          click_action: "FLUTTER_NOTIFICATION_CLICK",
+          test: "1"
+        },
+        android: {
+          priority: "high"
+        }
+      });
 
-  android: {
-    priority: "high"
+      console.log("✅ RESPUESTA FCM:", response);
+    }
+
+    res.send("Notificación enviada");
+
+  } catch (e) {
+    console.log("❌ ERROR FIREBASE:");
+    console.log(e);
+
+    res.send("ERROR REAL: " + e.message);
   }
 });
     }

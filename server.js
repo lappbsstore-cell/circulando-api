@@ -224,3 +224,10 @@ app.get("/notify", async (req, res) => {
 app.listen(3000, () => {
   console.log("🔥 API lista en puerto 3000");
 });
+
+// ─────────────────────────────
+// 🚀 START SERVER
+// ─────────────────────────────
+app.listen(3000, () => {
+  console.log("🔥 API lista en puerto 3000");
+});

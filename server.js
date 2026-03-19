@@ -212,12 +212,12 @@ app.get("/notify", async (req, res) => {
 
     res.send("Notificación enviada");
 
-  catch (e) {
-  console.log("❌ ERROR FIREBASE:");
-  console.log(e);
+  } catch (e) {
+    console.log("❌ ERROR FIREBASE:");
+    console.log(e);
 
-  res.send("ERROR REAL: " + e.message);
-}
+    res.send("ERROR REAL: " + e.message);
+  }
 });
 app.get("/tokens", (req, res) => {
   res.json(tokens);

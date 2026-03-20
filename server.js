@@ -215,6 +215,44 @@ if (!admin.apps.length) {
 console.log("🔥 Firebase inicializado");
 console.log("🔥 Proyecto:", process.env.FIREBASE_PROJECT_ID);
 
+const { GoogleAuth } = require("google-auth-library");
+
+const auth = new GoogleAuth({
+  credentials: {
+    client_email: process.env.FIREBASE_CLIENT_EMAIL,
+    private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+  },
+  scopes: ["https://www.googleapis.com/auth/firebase.messaging"],
+});
+
+async function enviarFCM(token) {
+  const client = await auth.getClient();
+  const accessToken = await client.getAccessToken();
+
+  const res = await fetch(
+    `https://fcm.googleapis.com/v1/projects/${process.env.FIREBASE_PROJECT_ID}/messages:send`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: {
+          token: token,
+          notification: {
+            title: "🚗 CirculAndo",
+            body: "Prueba real 🔔",
+          },
+        },
+      }),
+    }
+  );
+
+  const data = await res.json();
+  console.log("🔥 FCM RESPONSE:", data);
+}
+
 app.get("/notify", async (req, res) => {
   try {
 
@@ -228,17 +266,7 @@ app.get("/notify", async (req, res) => {
 
       console.log("📤 ENVIANDO A:", token);
 
-      const message = {
-        token: token,
-        notification: {
-          title: "🚗 CirculAndo",
-          body: "Prueba de notificación 🔔",
-        },
-      };
-
-      const response = await admin.messaging().send(message);
-
-      console.log("✅ FCM RESPONSE:", response);
+      await enviarFCM(token);
     }
 
     res.send("Notificación enviada");

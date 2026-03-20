@@ -199,7 +199,7 @@ console.log("ENV PROJECT:", process.env.FIREBASE_PROJECT_ID);
 console.log("ENV EMAIL:", process.env.FIREBASE_CLIENT_EMAIL);
 console.log("ENV PRIVATE KEY LENGTH:", process.env.FIREBASE_PRIVATE_KEY?.length);
 
-const admin = require("firebase-admin");
+
 
 if (!admin.apps.length) {
   admin.initializeApp({

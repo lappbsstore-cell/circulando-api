@@ -213,26 +213,27 @@ console.log("🔥 Proyecto:", process.env.FIREBASE_PROJECT_ID);
 app.get("/notify", async (req, res) => {
   try {
 
-    for (let token of tokens) {
+    if (tokens.length === 0) {
+      return res.send("No hay tokens registrados");
+    }
 
-      console.log("📤 Enviando a:", token);
+    console.log("🔥 TOKENS:", tokens);
 
-      const response = await admin.messaging().send({
+    for (const token of tokens) {
+
+      console.log("📤 ENVIANDO A:", token);
+
+      const message = {
         token: token,
         notification: {
-          title: "🚗 Hoy No Circula",
-          body: "Tu auto NO circula mañana"
+          title: "🚗 CirculAndo",
+          body: "Prueba de notificación 🔔",
         },
-        data: {
-          click_action: "FLUTTER_NOTIFICATION_CLICK",
-          test: "1"
-        },
-        android: {
-          priority: "high"
-        }
-      });
+      };
 
-      console.log("✅ RESPUESTA FCM:", response);
+      const response = await admin.messaging().send(message);
+
+      console.log("✅ FCM RESPONSE:", response);
     }
 
     res.send("Notificación enviada");

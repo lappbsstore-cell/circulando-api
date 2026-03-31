@@ -94,7 +94,7 @@ Volver a modo automático (AQI)
 // ─────────────────────────────
 // 🔄 SET CONTINGENCIA
 // ─────────────────────────────
-app.get("/set",(req,res)=>{
+app.get("/set", async (req,res)=>{
 
 if(req.query.key !== ADMIN_KEY){
   return res.send("Acceso no autorizado");
@@ -119,16 +119,20 @@ const manana = new Date(
  0,0,0,0
 );
 
-estadoActual={
- estado,
- hasta: manana.getTime(),
- sabado:{
-  hologramas,
-  digitos
- }
-};
+let modo = "auto";
 
-res.send("Estado actualizado: "+JSON.stringify(estadoActual));
+if (estado === "ninguna") modo = "normal";
+if (estado === "faseI") modo = "fase1";
+if (estado === "faseII") modo = "fase2";
+
+await admin.firestore().collection("config").doc("restricciones").set(
+  { modo },
+  { merge: true }
+);
+
+res.send("Modo actualizado a: " + modo);
+
+
 
 });
 

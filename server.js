@@ -95,45 +95,31 @@ Volver a modo automático (AQI)
 // 🔄 SET CONTINGENCIA
 // ─────────────────────────────
 app.get("/set", async (req,res)=>{
+  try {
 
-if(req.query.key !== ADMIN_KEY){
-  return res.send("Acceso no autorizado");
-}
+    if(req.query.key !== ADMIN_KEY){
+      return res.send("Acceso no autorizado");
+    }
 
-const estado=req.query.estado || "ninguna";
+    const estado=req.query.estado || "ninguna";
 
-const digitos=req.query.digitos
- ? req.query.digitos.split(",").map(n=>parseInt(n))
- : [];
+    let modo = "auto";
 
-const hologramas=req.query.hologramas
- ? req.query.hologramas.split(",")
- : [];
+    if (estado === "ninguna") modo = "normal";
+    if (estado === "faseI") modo = "fase1";
+    if (estado === "faseII") modo = "fase2";
 
-const ahora = new Date();
+    await admin.firestore().collection("config").doc("restricciones").set(
+      { modo },
+      { merge: true }
+    );
 
-const manana = new Date(
- ahora.getFullYear(),
- ahora.getMonth(),
- ahora.getDate() + 1,
- 0,0,0,0
-);
+    res.send("Modo actualizado a: " + modo);
 
-let modo = "auto";
-
-if (estado === "ninguna") modo = "normal";
-if (estado === "faseI") modo = "fase1";
-if (estado === "faseII") modo = "fase2";
-
-await admin.firestore().collection("config").doc("restricciones").set(
-  { modo },
-  { merge: true }
-);
-
-res.send("Modo actualizado a: " + modo);
-
-
-
+  } catch(e) {
+    console.log("❌ ERROR /set:", e);
+    res.send("ERROR: " + e.message);
+  }
 });
 
 // ─────────────────────────────
